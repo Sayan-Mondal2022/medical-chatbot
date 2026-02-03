@@ -1,9 +1,23 @@
-langchain==0.3.26
-pypdf==5.6.1
-sentence-transformers==4.1.0
-streamlit==1.36.0
-python-dotenv==1.1.0
-langchain-pinecone==0.2.8
-langchain-openai==0.3.24
-langchain-community==0.3.26
+# LangChain core (1.x ecosystem)
+langchain>=1.2.8
+langchain-core>=1.2.8
+
+# Groq
+langchain-groq
+groq
+
+# Community integrations (keep unpinned)
+langchain-community
+
+# Embeddings / Docs
+sentence-transformers
+pypdf
+
+# Vector DB
+pinecone
+langchain-pinecone
+
+# App / Utils
+streamlit
+python-dotenv
 ipykernel
