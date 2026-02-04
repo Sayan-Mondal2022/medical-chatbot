@@ -103,11 +103,7 @@ if uploaded_file and st.sidebar.button("Add to Knowledge Base"):
         minimal_docs = filter_to_minimal_docs(extracted_pdf)
         text_chunks = text_split(minimal_docs)
 
-        PineconeVectorStore.from_documents(
-            documents=text_chunks,
-            embedding=embeddings,
-            index_name=INDEX_NAME,
-        )
+        docsearch.add_documents(text_chunks)
 
     st.sidebar.success("✅ PDF indexed successfully")
 
