@@ -93,7 +93,6 @@ uploaded_file = st.sidebar.file_uploader(
     type=["pdf"]
 )
 
-
 if uploaded_file and st.sidebar.button("Add to Knowledge Base"):
     with st.spinner("Processing and indexing PDF..."):
 
