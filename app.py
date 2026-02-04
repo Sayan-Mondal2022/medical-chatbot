@@ -1,6 +1,8 @@
 import os
 import streamlit as st
 from dotenv import load_dotenv
+import shutil
+import uuid
 
 from src.helpers import (
     load_pdf_file,
@@ -91,21 +93,48 @@ uploaded_file = st.sidebar.file_uploader(
     type=["pdf"]
 )
 
+
 if uploaded_file and st.sidebar.button("Add to Knowledge Base"):
     with st.spinner("Processing and indexing PDF..."):
-        os.makedirs("data", exist_ok=True)
 
-        file_path = os.path.join("data", uploaded_file.name)
-        with open(file_path, "wb") as f:
-            f.write(uploaded_file.read())
+        # 1️⃣ Create temp folder
+        temp_dir = f"temp_upload_{uuid.uuid4().hex}"
+        os.makedirs(temp_dir, exist_ok=True)
 
-        extracted_pdf = load_pdf_file("data")
-        minimal_docs = filter_to_minimal_docs(extracted_pdf)
-        text_chunks = text_split(minimal_docs)
+        try:
+            # 2️⃣ Save uploaded PDF
+            file_path = os.path.join(temp_dir, uploaded_file.name)
+            with open(file_path, "wb") as f:
+                f.write(uploaded_file.read())
 
-        docsearch.add_documents(text_chunks)
+            # 3️⃣ 🔍 DUPLICATE CHECK (ADD THIS HERE)
+            existing_sources = {
+                doc.metadata.get("source")
+                for doc in docsearch.similarity_search("dummy", k=100)
+                if doc.metadata.get("source") is not None
+            }
 
-    st.sidebar.success("✅ PDF indexed successfully")
+            if uploaded_file.name in existing_sources:
+                st.sidebar.warning("⚠️ This PDF is already indexed.")
+                st.stop()
+
+            # 4️⃣ Load ONLY this PDF
+            extracted_pdf = load_pdf_file(temp_dir)
+            minimal_docs = filter_to_minimal_docs(extracted_pdf)
+            text_chunks = text_split(minimal_docs)
+
+            # Add metadata
+            for doc in text_chunks:
+                doc.metadata["source"] = uploaded_file.name
+
+            # 5️⃣ Add embeddings
+            docsearch.add_documents(text_chunks)
+
+            st.sidebar.success("✅ PDF indexed successfully")
+
+        finally:
+            # 6️⃣ Always cleanup temp folder
+            shutil.rmtree(temp_dir, ignore_errors=True)
 
 # ---------------------------------
 # CHAT HISTORY
