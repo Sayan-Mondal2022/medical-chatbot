@@ -3,3 +3,5 @@
 
 # This folder contains the PDF file, which is used to make the Knowledge base.
 data/
+
+__pycache__/
