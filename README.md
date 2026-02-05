@@ -3,8 +3,23 @@
 The **Medical Chatbot** is an AI-powered healthcare assistant designed to answer frequently asked medical questions related to common health conditions and diseases.
 It leverages **Retrieval-Augmented Generation (RAG)** to provide **context-aware, document-grounded responses**, helping users gain **basic guidance and temporary relief suggestions**.
 
-> **⚠️ Disclaimer**:\
+## 🚀 Demo
+
+![RAG-powered MediBot Demo](https://github.com/user-attachments/assets/62132371-00e1-4c4a-b371-be1a759e4af3))
+
+
+🔗 **Live Demo:**  
+https://rag-powered-medibot.streamlit.app/
+
+🧠 **About the Demo**
+- Upload a medical PDF document  
+- Ask questions in a ChatGPT-style conversational interface  
+- Get **context-aware answers** grounded strictly in the uploaded document  
+- Designed to **minimize hallucinations** using a Retrieval-Augmented Generation (RAG) pipeline
+
+> ⚠️ **Disclaimer**  
 > This chatbot is **not a replacement for professional medical advice**. It is intended for **educational and informational purposes only**. Users are strongly advised to consult certified medical professionals for diagnosis and treatment.
+
 
 ## 🎯 Key Objectives:
 
